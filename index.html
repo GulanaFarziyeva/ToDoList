@@ -8,29 +8,39 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div class="container">
       <div>
-        <h1 class="header">Task List</h1>
+        <h1 class="header">ToDo App</h1>
       </div>
       <form class="add-task">
         <input
           type="text"
-          placeholder="What do you have planned?"
+          placeholder="Add your new task"
           class="add-task-input"
           id="new-task-name"
         />
         <button type="submit" class="add-task-btn" id="add-new-task">
-          Add Task
+          <i class="fa-solid fa-plus"></i>
         </button>
       </form>
       <div class="tasks-inner">
-        <div class="tasks-header">Tasks</div>
+        <div class="tasks-header">
+          Tasks
+          <button class="clear-all-btn">Clear All</button>
+        </div>
 
         <ul class="task-list-inner"></ul>
       </div>

@@ -1,6 +1,7 @@
 let ulElement = document.querySelector(".task-list-inner");
 let newTaskName = document.querySelector("#new-task-name");
 let addTask = document.querySelector("#add-new-task");
+let clearBtn = document.querySelector(".clear-all-btn");
 
 let editId;
 let isEditTask = false;
@@ -17,12 +18,16 @@ function displayTask() {
   ulElement.innerHTML = "";
   for (let task of tasksList) {
     let liElement = `
-          <li class="task-list">
-              <input type="checkbox" id="${task.id}" class="task-list-input">
-              <label for="${task.id}">${task.taskName}</label>
-              <button class="edit-btn" onClick="editTask(${task.id},'${task.taskName}')">Edit</button>
-              <button class="delete-btn" onClick="deleteTask(${task.id}, '${task.taskName}')">Delete</button>
-          </li> 
+       <li class="task-list">
+        <input type="checkbox" id="${task.id}" class="task-list-input">
+        <label for="${task.id}">${task.taskName}</label>
+        <button class="edit-btn" onClick="editTask(${task.id},'${task.taskName}')">
+          <i class="fa-solid fa-pen-to-square"></i>       
+        </button>
+        <button class="delete-btn" onClick="deleteTask(${task.id}, '${task.taskName}')">
+        <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </li> 
       `;
     ulElement.insertAdjacentHTML("beforeend", liElement);
   }
@@ -77,3 +82,8 @@ function editTask(taskId, taskName) {
   newTaskName.focus();
   newTaskName.classList.add("active");
 }
+
+clearBtn.addEventListener("click", function () {
+  tasksList.splice(0, tasksList.length);
+  displayTask();
+});
