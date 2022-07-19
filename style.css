@@ -58,6 +58,7 @@ body{
     font-size: 18px;
     font-weight: 600;
     color: purple;
+    cursor: pointer;
 }
 
 .tasks-inner{
@@ -98,6 +99,7 @@ body{
     font-size: 18px;
     font-weight: 600;
     margin-left: 20px;
+    cursor: pointer;
 }
 
 .edit-btn{
@@ -109,6 +111,13 @@ body{
     margin-right: 12px;
 }
 
+.active{
+    outline: 1px solid blue;
+}
+
+.add-task-input:focus{
+    border: 1px solid blue;
+}
 
 @media (max-width: 768px){
     .add-task{
