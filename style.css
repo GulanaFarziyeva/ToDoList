@@ -64,7 +64,6 @@ body{
     cursor: pointer;
 }
 
-
 .tasks-inner{
     margin-top: 52px;
     display: flex;
@@ -103,7 +102,15 @@ body{
 
 .task-list label{
     flex-grow: 4;
+    margin-left: 5px;
 }
+
+.task-list label.checked{
+    text-decoration: line-through;
+}
+
+
+
 
 .edit-btn,
 .delete-btn{
