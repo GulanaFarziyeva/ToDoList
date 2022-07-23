@@ -1,23 +1,27 @@
-let ulElement = document.querySelector(".task-list-inner");
-let newTaskName = document.querySelector("#new-task-name");
-let addTask = document.querySelector("#add-new-task");
-let clearBtn = document.querySelector(".clear-all-btn");
-let addNewTaskBtn = document.querySelector("#add-new-task");
+let taskLists = [];
+
+if (localStorage.getItem("taskLists") !== null) {
+  taskLists = JSON.parse(localStorage.getItem("taskLists"));
+}
 
 let editId;
 let isEditTask = false;
 
-let tasksList = [];
+let ulElement = document.querySelector(".task-list-inner");
+let newTaskName = document.querySelector(".add-task-input");
+let addTaskBtn = document.querySelector(".add-task-btn");
+let clearBtn = document.querySelector(".clear-all-btn");
+
 
 displayTask();
 
 function displayTask() {
   ulElement.innerHTML = "";
-  if (tasksList.length == 0) {
+  if (taskLists.length == 0) {
     ulElement.innerHTML = `<p>Task List is empty</p>`;
   } else {
-    for (let task of tasksList) {
-      let completed = task.status == "completed" ? "checked" : "";
+    for (let task of taskLists) {
+      let completed = task.completed == true ? "checked": "";
       let liElement = `
          <li class="task-list">
           <input type="checkbox" id="${task.id}" onClick="updateStatus(this)"
@@ -36,48 +40,48 @@ function displayTask() {
   }
 }
 
-addNewTaskBtn.addEventListener("keypress", function (event) {
-  if (event.key == "Enter") {
-    addNewTaskBtn.click();
-  }
-});
-
-addTask.addEventListener("click", newTask);
+addTaskBtn.addEventListener("click", newTask);
+clearBtn.addEventListener("click", function() {
+  taskLists.splice(0, taskLists.length);
+  displayTask();
+  localStorage.setItem("taskLists", JSON.stringify(taskLists));
+})
 
 function newTask(event) {
   if (newTaskName.value == "") {
     alert("Please enter task");
   } else {
     if (!isEditTask) {
-      tasksList.push({
-        "id": tasksList.length + 1,
-        "taskName": newTaskName.value,
-        "status": "pending",
+       taskLists.push({
+        id: taskLists.length + 1,
+        taskName: newTaskName.value,
+        completed: false
+        
       });
     } else {
-      for (let task of tasksList) {
-        if (task.id == editId) {
-          task.taskName = newTaskName.value;
-        }
+      taskLists.find(task => {
+        task.id == editId
+        task.taskName = newTaskName.value
         isEditTask = false;
-      }
-    }
+      }) 
+}
     newTaskName.value = "";
     displayTask();
+    localStorage.setItem("taskLists", JSON.stringify(taskLists));
   }
+
   event.preventDefault();
 }
 
 function deleteTask(id) {
   let deletedId;
-  for (let index in tasksList) {
-    if (tasksList[index].id == id) {
-      deletedId = index;
-    }
-  }
+  taskLists.find((task, index )=>{
+    task.id == id || deletedId == index
+  })
 
-  tasksList.splice(deletedId, 1);
+  taskLists.splice(deletedId, 1);
   displayTask();
+  localStorage.setItem("taskLists", JSON.stringify(taskLists));
 }
 
 function editTask(taskId, taskName) {
@@ -87,26 +91,23 @@ function editTask(taskId, taskName) {
   newTaskName.focus();
 }
 
-
-
-clearBtn.addEventListener("click", function() {
-  tasksList.splice(0, tasksList.length);
-  displayTask();
-})
-
 function updateStatus(selectedTask) {
   let label = selectedTask.nextElementSibling;
-  let status;
-  if (selectedTask.checked) {
+  let completed;
+
+  if(selectedTask.checked) {
     label.classList.add("checked");
-    status = "completed";
+    completed = true;
   } else {
     label.classList.remove("checked");
-    status = "pending";
+    completed = false;
   }
-  for (let task of tasksList) {
-    if (task.id == selectedTask.id) {
-      task.status = status;
-    }
-  }
+
+  taskLists.find(task => {
+    task.id == selectedTask.id 
+    task.completed = completed
+  })
+
+  displayTask();
+  localStorage.setItem("taskLists", JSON.stringify(taskLists));
 }

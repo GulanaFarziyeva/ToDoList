@@ -5,17 +5,31 @@
     font-family: 'Poppins', sans-serif;
 }
 
+:root{
+    --body-background: #ecf0f1;
+    --container-background: #fbfcfc;
+    --border: #e5e7e9;
+    --header-text: #2C3E50 ;
+    --task-input: #CACFD2 ;
+    --add-input:#566573;
+    --blue: #0dcaf0;
+    --clear: #E74C3C;
+    --edit: #3498DB;
+}
+    
+   
+
 body{
-    background-color: #ECF0F1 ;
+    background-color: var(--body-background) ;
 }
 
 .container{
     max-width: 500px;
     margin: 28px auto;
     padding: 24px;
-    background-color: #FBFCFC  ;
+    background-color: var(--container-background)  ;
     border-radius: 20px;
-    border:1px solid #E5E7E9 ;
+    border:1px solid --border;
     display: flex;
     flex-direction: column;
   
@@ -23,7 +37,7 @@ body{
 
 .header{
     margin-bottom: 28px;
-    color: #2C3E50  ;
+    color: var(--header-text);
     font-size: 28px;
     font-weight: 500;
 }
@@ -39,7 +53,8 @@ body{
     padding: 4px 10px;
     background: none;
     outline: none;
-    border: 1px solid #CACFD2 ;
+    border: 1px solid;
+    border-color: var(--border);
     border-radius: 5px;
     font-size: 15px;
     letter-spacing: 1px;
@@ -47,18 +62,18 @@ body{
 }
 
 .add-task-input::placeholder{
-    color: #566573;
+    color: var(--add-input);
 }
 
 .add-task-input:focus{
-    border-color:#0dcaf0;
+    border-color:var(--blue);
 }
 
 .add-task-btn{
     border: none;
     border-radius: 5px;
     outline: none;
-    background:#0dcaf0;
+    background:var(--blue);
     color: #fff;
     padding: 4px 10px;
     cursor: pointer;
@@ -74,7 +89,7 @@ body{
 .tasks-header{
     font-size: 20px;
     font-weight: 600;
-    color: #2C3E50 ;
+    color: var(--header-text) ;
     display: flex;
     justify-content: space-between;
     
@@ -85,7 +100,7 @@ body{
     background: none;
     font-size: 16px;
     font-weight: 600;
-    color: #E74C3C;
+    color: var(--clear);
 }
 
 
@@ -94,7 +109,7 @@ body{
     height: 38px;
     margin-bottom: 12px;
     padding: 6px 10px;
-    background-color: #ecede9 ;
+    background-color: var(--border) ;
     border-radius: 5px;
     font-size: 16px;
     display: flex;
@@ -122,11 +137,11 @@ body{
 }
 
 .edit-btn{
-    color: #3498DB
+    color: var(--edit);
 }
 
 .delete-btn{
-    color: #E74C3C;
+    color: var(--clear);
     margin-right: 12px;
 }
 
@@ -141,7 +156,10 @@ body{
     }
 }
 
-@media (max-width: 500px){
+@media (max-width: 520px){
+    .container{
+        margin: 28px 16px;
+    }
     .add-task-input{
         width: 65%;
     }
