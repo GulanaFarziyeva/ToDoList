@@ -1,8 +1,4 @@
-let taskLists = [];
-
-if (localStorage.getItem("taskLists") !== null) {
-  taskLists = JSON.parse(localStorage.getItem("taskLists"));
-}
+let taskList = JSON.parse(localStorage.getItem("taskList"));
 
 let editId;
 let isEditTask = false;
@@ -17,20 +13,20 @@ displayTask();
 
 function displayTask() {
   ulElement.innerHTML = "";
-  if (taskLists.length == 0) {
+  if (taskList.length == 0) {
     ulElement.innerHTML = `<p>Task List is empty</p>`;
   } else {
-    for (let task of taskLists) {
-      let completed = task.completed == true ? "checked": "";
+    for (let task of taskList) {
+      let completed = task.completed === true ? "checked": "";
       let liElement = `
          <li class="task-list">
           <input type="checkbox" id="${task.id}" onClick="updateStatus(this)"
           class="task-list-input" ${completed}>
-          <label for="${task.id}" class="${completed}">${task.taskName}</label>
-          <button class="edit-btn" onClick='editTask(${task.id},"${task.taskName}")'>
+          <label for="${task.id}" class="${completed}">${task.name}</label>
+          <button class="edit-btn" onClick='editTask(${task.id},"${task.name}")'>
             <i class="fa-solid fa-pen-to-square"></i>       
           </button>
-          <button class="delete-btn" onClick='deleteTask(${task.id}, "${task.taskName}")'>
+          <button class="delete-btn" onClick='deleteTask(${task.id}, "${task.name}")'>
           <i class="fa-solid fa-trash-can"></i>
           </button>
         </li> 
@@ -40,54 +36,54 @@ function displayTask() {
   }
 }
 
-addTaskBtn.addEventListener("click", newTask);
+addTaskBtn.addEventListener("click", addNewTask);
 clearBtn.addEventListener("click", function() {
-  taskLists.splice(0, taskLists.length);
+  taskList.splice(0, taskList.length);
   displayTask();
-  localStorage.setItem("taskLists", JSON.stringify(taskLists));
+  localStorage.setItem("taskList", JSON.stringify(taskList));
 })
 
-function newTask(event) {
+function addNewTask(event) {
   if (newTaskName.value == "") {
     alert("Please enter task");
   } else {
     if (!isEditTask) {
-       taskLists.push({
-        id: taskLists.length + 1,
-        taskName: newTaskName.value,
+      let task = {
+        id: taskList.length + 1,
+        name: newTaskName.value,
         completed: false
-        
-      });
+      }
+       taskList.push(task);
     } else {
-      taskLists.find(task => {
-        task.id == editId
-        task.taskName = newTaskName.value
+      taskList.forEach(task => {
+      if(task.id === editId){
+        task.name = newTaskName.value
         isEditTask = false;
-      }) 
+      }
+    }) 
 }
     newTaskName.value = "";
     displayTask();
-    localStorage.setItem("taskLists", JSON.stringify(taskLists));
+    localStorage.setItem("taskList", JSON.stringify(taskList));
   }
 
   event.preventDefault();
 }
 
 function deleteTask(id) {
-  let deletedId;
-  taskLists.find((task, index )=>{
-    task.id == id || deletedId == index
+  let deletedId = taskList.find(task=>{
+    task.id === id
   })
 
-  taskLists.splice(deletedId, 1);
+  taskList.splice(deletedId, 1);
   displayTask();
-  localStorage.setItem("taskLists", JSON.stringify(taskLists));
+  localStorage.setItem("taskList", JSON.stringify(taskList));
 }
 
-function editTask(taskId, taskName) {
-  editId = taskId;
+function editTask(id, name) {
+  editId = id;
   isEditTask = true;
-  newTaskName.value = taskName;
+  newTaskName.value = name;
   newTaskName.focus();
 }
 
@@ -103,11 +99,12 @@ function updateStatus(selectedTask) {
     completed = false;
   }
 
-  taskLists.find(task => {
-    task.id == selectedTask.id 
-    task.completed = completed
-  })
+  taskList.forEach(task =>{
+    if(task.id == selectedTask.id) {
+      task.completed = completed;
+  }
+  }) 
 
   displayTask();
-  localStorage.setItem("taskLists", JSON.stringify(taskLists));
+  localStorage.setItem("taskList", JSON.stringify(taskList));
 }
